@@ -13,6 +13,9 @@ public class BusProject {
         boolean result1IsOk;
         boolean result2IsOk;
 
+        // All agree that never do like this
+        // result = headOfIoTJob.doBusProject(pmJob.dataProcessor, "daily_data");
+
         // Dependency injection: Thang give Tiep tool to work
         result1IsOk = headOfIoTJob.doBusProject(pmJob.getDataProcessor(), "daily_data") > 0;
 
