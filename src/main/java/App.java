@@ -11,6 +11,15 @@ interface DataProcessor {
 
 }
 
+interface ProductManagerJob {
+
+    // Give tool to someone if they ask
+    DataProcessor getDataProcessor();
+
+    // Take input to work. No one know about the tool
+    Integer processData(String data);
+}
+
 class Tuyen implements DataProcessor {
 
     public Integer processData(String data) {
@@ -20,7 +29,7 @@ class Tuyen implements DataProcessor {
 
 }
 
-class Thang {
+class Thang implements ProductManagerJob {
 
     // Internal tool of Tiep. Nothing can touch
     private final DataProcessor dataProcessor;
@@ -40,10 +49,16 @@ class Thang {
         return dataProcessor.processData(data);
     }
 
-
 }
 
-class Tiep {
+interface HeadOfIoTJob {
+
+    Integer doBusProject(DataProcessor dataProcessor, String data);
+
+    Integer doBusProject(ProductManagerJob pmJob, String data);
+}
+
+class Tiep implements HeadOfIoTJob {
 
     public Integer doBusProject(DataProcessor dataProcessor, String data)
     {
@@ -51,10 +66,10 @@ class Tiep {
         return dataProcessor.processData(data);
     }
 
-    public Integer doBusProject(Thang thang, String data)
+    public Integer doBusProject(ProductManagerJob pmJob, String data)
     {
         // process data
-        return thang.processData(data);
+        return pmJob.processData(data);
     }
 
 }
@@ -64,17 +79,17 @@ public class App {
 
     public static void main(String[] argv)
     {
-        Thang thang = new Thang();
-        Tiep tiep = new Tiep();
+        ProductManagerJob pmJob = new Thang();
+        HeadOfIoTJob headJob = new Tiep();
 
         int result1;
         int result2;
 
         // Dependency injection: Thang give Tiep tool to work
-        result1 = tiep.doBusProject(thang.getDataProcessor(), "daily_data");
+        result1 = headJob.doBusProject(pmJob.getDataProcessor(), "daily_data");
 
         // Thang work with Tiep around the data
-        result2 = tiep.doBusProject(thang,"daily_data");
+        result2 = headJob.doBusProject(pmJob, "daily_data");
 
         if (result1 + result2 > 0)
         {
