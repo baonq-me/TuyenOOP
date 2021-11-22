@@ -1,10 +1,9 @@
-import java.util.Optional;
 
-
+// Define task clearly with clear input and output
 interface DataProcessor {
 
     /**
-     * Process data
+     * Process data task
      * @param data input
      * @return output
      */
