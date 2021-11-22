@@ -14,11 +14,11 @@ interface DataProcessor {
 
 class Tuyen implements DataProcessor {
 
-    @Override
     public Integer processData(String data) {
         // process data
         return data.length();
     }
+
 }
 
 class Thang {
@@ -68,10 +68,10 @@ public class App {
         int result1;
         int result2;
 
-        // Dependency injection
+        // Dependency injection: Thang give Tiep tool to work
         result1 = tiep.doBusProject(thang.getDataProcessor(), "daily_data");
 
-        // Interface
+        // Thang work with Tiep around the data
         result2 = tiep.doBusProject(thang,"daily_data");
 
         if (result1 + result2 > 0)
